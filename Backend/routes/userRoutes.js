@@ -13,7 +13,7 @@ import {
   verifyOtp,
   SingupAuth,
 } from "../controllers/OtpController.js";
-import passport from "passport";
+import { requireAuth } from "../middleware/middleware.js";
 import multer from "multer";
 
 const otpLimiter = rateLimit({
@@ -55,15 +55,15 @@ router.post("/signup", SingupAuth);
 router.post("/login", LoginAuth);
 router.post(
   "/logout",
-  passport.authenticate("jwt", { session: false }),
+  requireAuth,
   logout,
 );
 router.post("/refresh", refesh);
-router.get("/me", passport.authenticate("jwt", { session: false }), getUser);
+router.get("/me", requireAuth, getUser);
 
 router.patch(
   "/edit",
-  passport.authenticate("jwt", { session: false }),
+  requireAuth,
   upload.single("profile_picture"),
   editUser,
 );

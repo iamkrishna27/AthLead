@@ -4,24 +4,24 @@ import {
   getScore,
   setScore,
 } from "../controllers/scoreController.js";
-import passport from "passport";
+import { requireAuth } from "../middleware/middleware.js";
 
 const router = Router();
 
 router.get(
   "/score/rank",
-  passport.authenticate("jwt", { session: false }),
+  requireAuth,
   getRanking,
 );
 
 router.post(
   "/score",
-  passport.authenticate("jwt", { session: false }),
+  requireAuth,
   setScore,
 );
 router.get(
   "/my-scores",
-  passport.authenticate("jwt", { session: false }),
+  requireAuth,
   getScore,
 );
 

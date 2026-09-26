@@ -7,8 +7,7 @@ import {
   registerEvent,
   updateEvent,
 } from "../controllers/eventController.js";
-import { requireAdmin } from "../middleware/middleware.js";
-import passport from "passport";
+import { requireAdmin, requireAuth } from "../middleware/middleware.js";
 
 const router = Router();
 
@@ -17,34 +16,34 @@ router.get("/events", findAllEvent);
 
 router.get(
   "/my-events",
-  passport.authenticate("jwt", { session: false }),
+  requireAuth,
   getMyEvents,
 );
 
 router.post(
   "/events/:eventId/register",
-  passport.authenticate("jwt", { session: false }),
+  requireAuth,
   registerEvent,
 );
 
 //Admin event routes
 router.post(
   "/events",
-  passport.authenticate("jwt", { session: false }),
+  requireAuth,
   requireAdmin,
   createEvent,
 );
 
 router.delete(
   "/events/:eventId",
-  passport.authenticate("jwt", { session: false }),
+  requireAuth,
   requireAdmin,
   deleteEvent,
 );
 
 router.patch(
   "/events/:eventId",
-  passport.authenticate("jwt", { session: false }),
+  requireAuth,
   requireAdmin,
   updateEvent,
 );
